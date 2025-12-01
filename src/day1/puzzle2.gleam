@@ -5,21 +5,21 @@ import gleam/int
 
 pub fn puzzle_2() -> Int {
   let rotations = file_to_rotations("input/input1_1.txt")
-  loop_rotations(rotations, 50)
+  count_all_zeros(rotations, 50)
 }
 
-fn loop_rotations(rotations: List(Rotation), state: Int) -> Int {
+fn count_all_zeros(rotations: List(Rotation), state: Int) -> Int {
   case rotations {
     [rotation, ..remaining] -> {
-      let count = count_ticks_on_zero(state, rotation)
+      let count = count_passes_zero(state, rotation)
       let new_state = apply_rotation(state, rotation)
-      count + loop_rotations(remaining, new_state)
+      count + count_all_zeros(remaining, new_state)
     }
     [] -> 0
   }
 }
 
-fn count_ticks_on_zero(state: Int, rotation: Rotation) -> Int {
+fn count_passes_zero(state: Int, rotation: Rotation) -> Int {
   case rotation {
     Left(x) if state - x <= 0 ->
       { int.absolute_value(state - x) } / 100 + 1 * bool_to_int(state != 0)
