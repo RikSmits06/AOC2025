@@ -60,3 +60,7 @@ pub fn any_repeating_pattern_test() {
   use invalid <- list.map(invalids)
   assert puzzle2.any_repeating_pattern(int.to_string(invalid))
 }
+
+pub fn puzzle2_test() {
+  assert puzzle2.puzzle_2() == 48_631_958_998
+}

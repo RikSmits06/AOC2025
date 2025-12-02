@@ -13,11 +13,19 @@ pub fn puzzle_2() -> Int {
 pub fn any_repeating_pattern(s: String) -> Bool {
   let size = string.length(s)
   let mid_point = size / 2
-  let sub_patterns = list.range(0, mid_point)
-  let patterns = list.map(sub_patterns, fn(x) { string.slice(s, 0, x) })
-  let matches =
-    list.map(patterns, fn(x) { string.replace(s, each: x, with: "") == "" })
-  list.any(matches, fn(x) { x })
+  let sub_patterns = list.range(mid_point, 0)
+  use _, sub_pattern <- list.fold_until(sub_patterns, False)
+  case sub_pattern {
+    _ if size % sub_pattern == 0 -> {
+      let pattern =
+        string.slice(s, 0, sub_pattern) |> string.repeat(size / sub_pattern)
+      case pattern == s {
+        True -> list.Stop(True)
+        False -> list.Continue(False)
+      }
+    }
+    _ -> list.Continue(False)
+  }
 }
 
 pub fn any_invalid_in_range(range: puzzle1.Range) -> List(Int) {
