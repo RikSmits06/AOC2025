@@ -1,6 +1,7 @@
 import gleam/int
 import gleam/list
 import gleam/string
+import parallel_map
 import util
 
 const paper_roll = "@"
@@ -17,10 +18,25 @@ pub fn puzzle_1() {
   let map = read_map_from_file("input/input4_1.txt")
   let Map(tiles) = map
   tiles
-  |> list.filter(fn(x) {
-    x.paper_roll && get_true_neighbours(x, map) |> list.length() < 4
+  |> parallel_map.list_pmap(
+    fn(x) {
+      case x {
+        x if x.paper_roll -> {
+          let neighbour = get_true_neighbours(x, map)
+          Coords(x.x, x.y, list.length(neighbour) < 4)
+        }
+        x -> x
+      }
+    },
+    parallel_map.WorkerAmount(100),
+    1000,
+  )
+  |> list.map(fn(x) {
+    let assert Ok(x) = x
+    x
   })
-  |> list.length()
+  |> Map()
+  |> number_of_paper_rolls()
 }
 
 pub fn get_true_neighbours(coord: Coords, map: Map) -> List(Coords) {
@@ -44,4 +60,8 @@ pub fn read_map_from_file(filename: String) -> Map {
 fn parse_line(y: Int, line: String) -> List(Coords) {
   use char, index <- list.index_map(string.to_graphemes(line))
   Coords(index, y, char == paper_roll)
+}
+
+pub fn number_of_paper_rolls(map: Map) -> Int {
+  map.tiles |> list.count(fn(x) { x.paper_roll })
 }
