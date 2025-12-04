@@ -1,4 +1,4 @@
-import day3/puzzle2
+import day2/puzzle2
 import gleam/io
 import gleam/time/duration
 import gleam/time/timestamp

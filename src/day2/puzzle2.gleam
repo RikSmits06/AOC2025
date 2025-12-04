@@ -2,10 +2,19 @@ import day2/puzzle1
 import gleam/int
 import gleam/list
 import gleam/string
+import parallel_map
 
 pub fn puzzle_2() -> Int {
-  let ranges = puzzle1.file_to_ranges("input/input2_1.txt")
-  list.map(ranges, any_invalid_in_range)
+  puzzle1.file_to_ranges("input/input2_1.txt")
+  |> parallel_map.list_pmap(
+    any_invalid_in_range,
+    parallel_map.MatchSchedulersOnline,
+    3000,
+  )
+  |> list.map(fn(x) {
+    let assert Ok(x) = x
+    x
+  })
   |> list.flatten()
   |> int.sum()
 }
