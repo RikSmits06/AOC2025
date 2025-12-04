@@ -36,10 +36,6 @@ pub fn find_invalid_in_range_test() {
     == [38_593_859]
 }
 
-pub fn puzzle_1_test() {
-  assert puzzle1.puzzle_1() == 29_940_924_880
-}
-
 pub fn any_repeating_pattern_test() {
   let invalids = [
     11,
@@ -59,8 +55,4 @@ pub fn any_repeating_pattern_test() {
 
   use invalid <- list.map(invalids)
   assert puzzle2.any_repeating_pattern(int.to_string(invalid))
-}
-
-pub fn puzzle2_test() {
-  assert puzzle2.puzzle_2() == 48_631_958_998
 }

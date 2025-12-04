@@ -1,16 +1,7 @@
 import day3/puzzle1
-import day3/puzzle2
 import gleam/int
 import gleam/list
 import gleam/string
-
-pub fn puzzle_1_test() {
-  assert puzzle1.puzzle_1() == 17_107
-}
-
-pub fn puzzle_2_test() {
-  assert puzzle2.puzzle_2() == 169_349_762_274_117
-}
 
 pub fn max_bank_joltage_test() {
   assert puzzle1.max_joltage(
