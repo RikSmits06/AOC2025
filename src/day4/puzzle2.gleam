@@ -1,5 +1,7 @@
 import day4/puzzle1
 import gleam/list
+import parallel_map
+import util
 
 pub fn puzzle_2() -> Int {
   let map = puzzle1.read_map_from_file("input/input4_1.txt")
@@ -13,7 +15,7 @@ fn reduce_map(map: puzzle1.Map, n_paper_rolls: Int) -> puzzle1.Map {
   let puzzle1.Map(tiles) = map
   let tiles =
     tiles
-    |> list.filter(fn(x) {
+    |> util.parallel_filter(parallel_map.WorkerAmount(15), 1000, fn(x) {
       !{
         x.paper_roll && puzzle1.get_true_neighbours(x, map) |> list.length() < 4
       }
