@@ -13,6 +13,7 @@ pub fn not_divisible(a: Int, b: Int) -> Bool {
   !divisible(a, b)
 }
 
+/// Reads the given file and then splits on line breaks.
 pub fn read_lines(file_name: String) -> List(String) {
   let assert Ok(file) = file_stream.open_read(file_name)
   read_lines_recursively(file)
@@ -27,6 +28,7 @@ fn read_lines_recursively(file: file_stream.FileStream) -> List(String) {
   }
 }
 
+/// Same as filter but then using parallel_map.
 pub fn parallel_filter(
   data: List(a),
   wa: parallel_map.WorkerAmount,
