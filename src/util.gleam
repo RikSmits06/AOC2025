@@ -1,4 +1,5 @@
 import file_streams/file_stream
+import gleam/int
 import gleam/list
 import gleam/string
 import parallel_map
@@ -11,6 +12,12 @@ pub fn divisible(a: Int, b: Int) -> Bool {
 /// Checks if a is not divisible by b.
 pub fn not_divisible(a: Int, b: Int) -> Bool {
   !divisible(a, b)
+}
+
+pub fn strings_to_ints(arr: List(String)) -> List(Int) {
+  use n <- list.map(arr)
+  let assert Ok(n) = int.parse(n)
+  n
 }
 
 /// Reads the given file and then splits on line breaks.
